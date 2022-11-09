@@ -1,68 +1,92 @@
-#include<bits/stdc++.h>
-using namespace std;
+#include<stdio.h>
 
-#define MX 110
+int a[20][20],q[20],visited[20],n,f=-1,r=-1;
 
-vector < int > graph[MX];
-bool vis[MX]; // for visited array
-int dis[MX]; // for distance array
-
-void bfs(int source)
+void bfs(int v)
 {
-    queue < int > Q;
-    //initialization
-    vis[source] = 1;
-    dis[source]  = 0;
-    Q.push(source);
-
-    while(!Q.empty())
+    int i;
+    for (i=0; i<n; i++) // check all the vertices in the graph
     {
-        int node = Q.front();
-        Q.pop(); // for remove front element
-        //for visited all adjacency node
-
-        for(int i = 0; i < graph[node].size(); i++)
+        if(a[v][i] != 0 && visited[i] == 0) // adjacent to v and not visited
         {
-            int next = graph[node][i];
-            if(vis[next]== 0)
-            {
-                vis[next] = 1; // visit node if the are unvisited
-                dis[next] =  dis[node] + 1; // update distance
-                Q.push(next); // push to queue
-            }
+            r=r+1;
+            q[r]=i;// insert them into queue
+            visited[i]=1;// mark the vertex visited
+            printf("%d  ",i);
         }
-
     }
+    f=f+1;// remove the vertex at front of the queue
+    if(f<=r)// as long as there are elements in the queue
+        bfs(q[f]);// peform bfs again on the vertex at front of the queue
 }
-
 int main()
 {
-
-    int nodes, edges;
-
-    cout<<"Enter number of nodes & Edges: ";
-    cin >> nodes >> edges;
-    cout<<"Enter edges values: "<<endl;
-    for(int i = 1; i <= edges; i++ )
+    int v,i,j;
+    printf("\n Enter the number of vertices:");
+    scanf("%d",&n);
+    for (i=0; i<n; i++) // mark all the vertices as not visited
     {
-        int u,v;
-        cin >> u >> v;
-
-        graph[u].push_back(v);
-        graph[v].push_back(u);
-
+        visited[i]=0;
     }
-    int source;
+    printf("\n Enter graph data in matrix form:\n");
+    for (i=0; i<n; i++)
+        for (j=0; j<n; j++)
+            scanf("%d",&a[i][j]);
+    printf("\n Enter the starting vertex:");
+    scanf("%d",&v);
+    f=r=0;
+    q[r]=v;
+    printf("\n BFS traversal is:\n");
+    visited[v]=1;// mark the starting vertex as visited
+    printf("%d   ",v);
 
-    cout<<"Enter source "<<endl;
-    cin >> source;
-    bfs(source);
+    bfs(v);
+    if(r != n-1)
+        printf("\n BFS is not possible");
+}
+#include<stdio.h>
 
-    cout<<" From node "<< source << endl;
+int a[20][20],q[20],visited[20],n,f=-1,r=-1;
 
-    for(int i = 1; i <= nodes; i++ )
+void bfs(int v)
+{
+    int i;
+    for (i=0; i<n; i++) // check all the vertices in the graph
     {
-        cout<< "Distance of " << i << " is :"<< dis[i] << endl;
+        if(a[v][i] != 0 && visited[i] == 0) // adjacent to v and not visited
+        {
+            r=r+1;
+            q[r]=i;// insert them into queue
+            visited[i]=1;// mark the vertex visited
+            printf("%d  ",i);
+        }
     }
-    return 0;
+    f=f+1;// remove the vertex at front of the queue
+    if(f<=r)// as long as there are elements in the queue
+        bfs(q[f]);// peform bfs again on the vertex at front of the queue
+}
+int main()
+{
+    int v,i,j;
+    printf("\n Enter the number of vertices:");
+    scanf("%d",&n);
+    for (i=0; i<n; i++) // mark all the vertices as not visited
+    {
+        visited[i]=0;
+    }
+    printf("\n Enter graph data in matrix form:\n");
+    for (i=0; i<n; i++)
+        for (j=0; j<n; j++)
+            scanf("%d",&a[i][j]);
+    printf("\n Enter the starting vertex:");
+    scanf("%d",&v);
+    f=r=0;
+    q[r]=v;
+    printf("\n BFS traversal is:\n");
+    visited[v]=1;// mark the starting vertex as visited
+    printf("%d   ",v);
+
+    bfs(v);
+    if(r != n-1)
+        printf("\n BFS is not possible");
 }
